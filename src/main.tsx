@@ -6,7 +6,6 @@ import {Provider} from "react-redux";
 import {CssBaseline} from "@mui/material";
 import { ToastContainer } from 'react-toastify';
 
-
 createRoot(document.getElementById('root')!).render(
     <Provider store={store}>
         <BrowserRouter>
