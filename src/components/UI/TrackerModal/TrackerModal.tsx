@@ -17,7 +17,6 @@ import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { TransactionForm } from '../../../types';
 import { useAppSelector } from '../../../app/hook.ts';
 import { selectCategories } from '../../../store/categoriesSlice.ts';
-import transactions from '../../../containers/Transactions/Transactions.tsx';
 
 interface CartModalProps {
   open: boolean;

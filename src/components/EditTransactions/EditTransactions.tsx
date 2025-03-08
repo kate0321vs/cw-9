@@ -1,6 +1,6 @@
 import { useAppDispatch, useAppSelector } from '../../app/hook.ts';
 import { useEffect } from 'react';
-import { fetchOne } from '../../store/trackerThunks.ts';
+import { fetchOne, updateTransaction } from '../../store/trackerThunks.ts';
 import { TransactionForm } from '../../types';
 import { toast } from 'react-toastify';
 import TrackerModal from '../UI/TrackerModal/TrackerModal.tsx';
@@ -26,7 +26,7 @@ const EditTransactions = () => {
 
   const onSubmit = async (transaction: TransactionForm) => {
     if (id) {
-      await dispatch(updateDish({id, transaction}));
+      await dispatch(updateTransaction({id, transaction}));
       toast.success('Dish was edited Successfully!');
       navigate('/admin');
     }
@@ -34,7 +34,7 @@ const EditTransactions = () => {
 
   return (
     <>
-      <TrackerModal open={open} onClose={onClose} submitAction={onSubmit} isLoading={loading} transaction={transaction} />
+      <TrackerModal open={open} onClose={onClose} submitAction={onSubmit} isLoading={loading} transaction={transaction} type='edit'/>
     </>
   );
 };

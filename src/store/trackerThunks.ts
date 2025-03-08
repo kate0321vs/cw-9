@@ -19,6 +19,18 @@ export const fetchCategories = createAsyncThunk<Category[], undefined>(
   }
 )
 
+export const fetchOneCategory = createAsyncThunk<Category, string>(
+  "transactions/fetchOne",
+  async (id) => {
+    const categoryResponse = await axiosApi<Category | null>(`/transactions/${id}.json`);
+    const category = categoryResponse.data;
+    if(!category) {
+      throw new Error("Not Found!");
+    }
+    return category;
+  }
+);
+
 export const fetchTransactions = createAsyncThunk<Transaction[], undefined>(
   "transactions/fetchAll",
   async () => {
@@ -50,5 +62,12 @@ export const createTransaction = createAsyncThunk<void, TransactionForm>(
   "dishes/create",
   async (transaction) => {
     await axiosApi.post('/transactions.json', transaction);
+  }
+);
+
+export const updateTransaction = createAsyncThunk<void, {id: string, transaction: TransactionForm}>(
+  "transactions/update",
+  async ({id, transaction}) => {
+    await axiosApi.put(`/transactions/${id}.json`, transaction);
   }
 );

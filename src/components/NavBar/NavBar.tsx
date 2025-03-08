@@ -1,11 +1,10 @@
 import { NavLink, useLocation } from 'react-router-dom';
 import { AppBar, Box, Button, Toolbar, Typography } from '@mui/material';
 import { useAppDispatch } from '../../app/hook.ts';
-import { openModal } from '../../store/ModalSlice.ts';
+import { openAddModal } from '../../store/ModalSlice.ts';
 
 const NavBar = () => {
   const dispatch = useAppDispatch();
-  const location = useLocation();
 
   return (
     <Box sx={{mb: 5}}>
@@ -22,7 +21,7 @@ const NavBar = () => {
           </Typography>
             <Box>
               <Button color="inherit" component={NavLink} to="/categories">Categories</Button>
-              <Button color='inherit' onClick={() => dispatch(openModal())} >Add</Button>
+              <Button color='inherit' onClick={() => dispatch(openAddModal())} >Add</Button>
           </Box>
         </Toolbar>
       </AppBar>

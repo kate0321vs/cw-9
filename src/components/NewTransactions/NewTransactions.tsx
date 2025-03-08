@@ -27,7 +27,7 @@ const NewTransactions = () => {
 
   return (
     <div>
-       <TrackerModal open={open} onClose={onClose} submitAction={submitAction} isLoading={loading} />
+       <TrackerModal open={open} onClose={onClose} submitAction={submitAction} isLoading={loading}/>
     </div>
   );
 };

@@ -1,23 +1,25 @@
 import { Transaction, TransactionForm } from '../types';
 import { createSlice } from '@reduxjs/toolkit';
-import { createTransaction, fetchOne, fetchTransactions } from './trackerThunks.ts';
+import { createTransaction, fetchOne, fetchTransactions, updateTransaction } from './trackerThunks.ts';
 import { RootState } from '../app/store.ts';
 
 
-interface categoriesState {
+interface transactionsState {
   transactions: Transaction[];
-  transactionsLoading: boolean;
+  transactionLoading: boolean;
   transaction: TransactionForm | null;
   createLoading: boolean;
   fetchLoading: boolean;
+  updateLoading: boolean;
 }
 
-const initialState: categoriesState = {
+const initialState: transactionsState = {
   transactions: [],
-  transactionsLoading: false,
+  transactionLoading: false,
   transaction: null,
   createLoading: false,
   fetchLoading: false,
+  updateLoading: false,
 }
 
 const transactionsSlice = createSlice({
@@ -37,14 +39,14 @@ const transactionsSlice = createSlice({
     });
 
     builder.addCase(fetchOne.pending, (state) => {
-      state.transactionsLoading = true;
+      state.transactionLoading = true;
     });
     builder.addCase(fetchOne.fulfilled, (state, {payload: transaction}) => {
-      state.transactionsLoading = false;
+      state.transactionLoading = false;
       state.transaction = transaction
     });
     builder.addCase(fetchOne.rejected, (state) => {
-      state.transactionsLoading = false;
+      state.transactionLoading = false;
     });
 
     builder.addCase(createTransaction.pending, (state) => {
@@ -56,9 +58,21 @@ const transactionsSlice = createSlice({
     builder.addCase(createTransaction.rejected, (state) => {
       state.createLoading = false
     });
+
+    builder.addCase(updateTransaction.pending, (state) => {
+      state.updateLoading = true;
+    });
+    builder.addCase(updateTransaction.fulfilled, (state) => {
+      state.updateLoading = false;
+    });
+    builder.addCase(updateTransaction.rejected, (state) => {
+      state.updateLoading = false;
+    });
   }
 });
 
+export const selectTransactions = (state: RootState) => state.transactions.transactions;
+export const selectFetchLoading = (state: RootState) => state.transactions.fetchLoading;
 export const selectTransaction = (state: RootState) => state.transactions.transaction
 export const selectCreateLoading = (state:RootState) => state.transactions.createLoading;
 export const transactionsReducer = transactionsSlice.reducer

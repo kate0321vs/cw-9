@@ -3,27 +3,33 @@ import { RootState } from '../app/store.ts';
 
 interface ModalState {
   open: boolean;
+  type: "add" | "edit" | null;
 }
 
 const initialState: ModalState = {
   open: false,
+  type: null,
 };
 
 const modalSlice = createSlice({
   name: "modal",
   initialState,
   reducers: {
-    openModal: (state) => {
+    openAddModal: (state) => {
       state.open = true;
-      console.log("Modal open state:", state.open);
+      state.type = "add";
+    },
+    openEditModal: (state) => {
+      state.open = true;
+      state.type = "edit";
     },
     closeModal: (state) => {
       state.open = false;
-      console.log("Modal open state:", state.open);
+      state.type = null;
     },
   },
 });
 
-export const { openModal, closeModal } = modalSlice.actions;
+export const { openAddModal, openEditModal, closeModal } = modalSlice.actions;
 export const selectOpen = (state: RootState) => state.modal.open;
-export const modalReducer =  modalSlice.reducer;
+export const modalReducer = modalSlice.reducer;
