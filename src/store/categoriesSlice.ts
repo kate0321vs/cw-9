@@ -47,5 +47,4 @@ const categoriesSlice = createSlice({
 });
 
 export const selectCategories = (state:RootState) => state.categories.categories;
-export const selectCategory = (state:RootState) => state.categories.category;
 export const categoriesReducer = categoriesSlice.reducer

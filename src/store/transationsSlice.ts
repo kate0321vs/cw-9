@@ -1,6 +1,12 @@
 import { Transaction, TransactionForm } from '../types';
 import { createSlice } from '@reduxjs/toolkit';
-import { createTransaction, fetchOne, fetchTransactions, updateTransaction } from './trackerThunks.ts';
+import {
+  createTransaction,
+  deleteTransaction,
+  fetchOne,
+  fetchTransactions,
+  updateTransaction
+} from './trackerThunks.ts';
 import { RootState } from '../app/store.ts';
 
 
@@ -11,6 +17,7 @@ interface transactionsState {
   createLoading: boolean;
   fetchLoading: boolean;
   updateLoading: boolean;
+  deleteLoading: boolean | string;
 }
 
 const initialState: transactionsState = {
@@ -20,6 +27,7 @@ const initialState: transactionsState = {
   createLoading: false,
   fetchLoading: false,
   updateLoading: false,
+  deleteLoading: false,
 }
 
 const transactionsSlice = createSlice({
@@ -68,6 +76,16 @@ const transactionsSlice = createSlice({
     builder.addCase(updateTransaction.rejected, (state) => {
       state.updateLoading = false;
     });
+
+    builder.addCase(deleteTransaction.pending, (state, action) => {
+      state.deleteLoading = action.meta.arg
+    });
+    builder.addCase(deleteTransaction.fulfilled, (state) => {
+      state.deleteLoading = false
+    });
+    builder.addCase(deleteTransaction.rejected, (state) => {
+      state.deleteLoading = false
+    });
   }
 });
 
@@ -75,4 +93,5 @@ export const selectTransactions = (state: RootState) => state.transactions.trans
 export const selectFetchLoading = (state: RootState) => state.transactions.fetchLoading;
 export const selectTransaction = (state: RootState) => state.transactions.transaction
 export const selectCreateLoading = (state:RootState) => state.transactions.createLoading;
+export const selectDeleteLoading = (state: RootState) => state.transactions.deleteLoading;
 export const transactionsReducer = transactionsSlice.reducer

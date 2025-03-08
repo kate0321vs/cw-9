@@ -3,7 +3,11 @@ import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Transaction, Category } from '../../../types';
 import { openEditModal } from '../../../store/ModalSlice.ts';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch, useAppSelector } from '../../../app/hook.ts';
+import { selectDeleteLoading } from '../../../store/transationsSlice.ts';
+import ButtonSpinner from '../../../components/UI/Spinner/ButtonSpinner/ButtonSpinner.tsx';
+import { deleteTransaction, fetchTransactions } from '../../../store/trackerThunks.ts';
+import { toast } from 'react-toastify';
 
 interface Props {
   transaction: Transaction;
@@ -11,11 +15,18 @@ interface Props {
 }
 
 const TransactionItem: React.FC<Props> = ({ transaction, categories }) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
+ const deleteLoading = useAppSelector(selectDeleteLoading);
+
+ const onDelete = async () => {
+   if (window.confirm("Are you sure you want to delete this transaction?")) {
+     await dispatch(deleteTransaction(transaction.id));
+     toast.success('Transaction was deleted Successfully!');
+     await dispatch(fetchTransactions());
+   }
+ }
 
   const category = categories.find((cat) => cat.id === transaction.category);
-
-
 
   return (
     <Card sx={{ display: "flex", alignItems: "center", p: 2, borderRadius: 2, boxShadow: 2 }}>
@@ -33,8 +44,8 @@ const TransactionItem: React.FC<Props> = ({ transaction, categories }) => {
       <IconButton title="Редактировать" onClick={() => dispatch(openEditModal())}>
         <ModeEditIcon />
       </IconButton>
-      <IconButton title="удалить">
-        <DeleteIcon />
+      <IconButton title="удалить" onClick={onDelete}>
+        {deleteLoading && deleteLoading === transaction.id && <ButtonSpinner/>} {!deleteLoading && <DeleteIcon />}
       </IconButton>
     </Card>
   );
