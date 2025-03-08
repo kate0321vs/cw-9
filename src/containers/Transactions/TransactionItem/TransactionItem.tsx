@@ -29,7 +29,7 @@ const TransactionItem: React.FC<Props> = ({ transaction, categories }) => {
   const category = categories.find((cat) => cat.id === transaction.category);
 
   return (
-    <Card sx={{ display: "flex", alignItems: "center", p: 2, borderRadius: 2, boxShadow: 2 }}>
+    <Card sx={{ display: "flex", alignItems: "center", p: 2, borderRadius: 2, boxShadow: 2, mb:3 }}>
       <Box sx={{ flexGrow: 1, display: "flex", alignItems: "center" }}>
         <Typography sx={{ minWidth: 140, fontWeight: "bold" }}>
           {new Date(transaction.createdAt).toLocaleString()}

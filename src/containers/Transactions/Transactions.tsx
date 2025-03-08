@@ -19,8 +19,6 @@ const Transactions = () => {
     dispatch(fetchCategories());
   }, [dispatch]);
 
-  console.log(categories, 'Transactions');
-
   return (
     <Container>
       {loading ? (

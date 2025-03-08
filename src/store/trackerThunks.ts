@@ -7,14 +7,12 @@ export const fetchCategories = createAsyncThunk<Category[], undefined>(
   async () => {
     const categoriesResponse = await axiosApi<ApiCategories>('/categories.json');
     const categories = categoriesResponse.data;
-    console.log(categories);
     let newCategories: Category[] = [];
     if(categories) {
       newCategories = Object.keys(categories).map((key) => {
         return {...categories[key], id: key};
       });
     }
-    console.log(newCategories);
     return newCategories;
   }
 )
@@ -42,7 +40,7 @@ export const fetchTransactions = createAsyncThunk<Transaction[], undefined>(
         return {...transactions[key], id: key};
       });
     }
-    return newTransactions;
+    return newTransactions.reverse();
   }
 );
 
